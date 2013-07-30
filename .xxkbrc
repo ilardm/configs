@@ -1,0 +1,16 @@
+XXkb.mainwindow.enable: no
+XXkb.mainwindow.in_tray: no
+XXkb.mainwindow.appicon: yes
+
+XXkb.group.base: 1
+XXkb.group.alt: 2
+
+XXkb.mainwindow.image.1: en48.xpm
+XXkb.mainwindow.image.2: ru48.xpm
+
+XXkb.mainwindow.geometry: 48x48-0+50
+#XXkb.button.geometry: 48x48-5-0
+#XXkb.button.geometry: 15x15-5+0
+
+XXkb.app_list.wm_class.ignore: stalonetray
+XXkb.app_list.wm_class_name.ignore: stalonetray

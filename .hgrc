@@ -1,0 +1,26 @@
+# system-wide mercurial configuration file
+# See hgrc(5) for more information
+
+[extensions]
+color =
+graphlog =
+hgk =
+hgext.convert=
+purge =
+#churn =
+nearest = /home/ilya/downloads/bin-src/nearest-hgext/nearest.py
+mq =
+
+[ui]
+username = Ilya Arefiev <arefiev.id@gmail.com>
+editor = vim
+merge = 
+
+[defaults]
+diff = --color always
+
+[alias]
+glog = glog --color always
+last = glog --limit 5 --color always
+#stat = churn -f %Y-%m-%d -s --progress
+l = log --color always --graph --template 'commit: {node|short}\t{branches} :: {tags}\nauthor: {author}\ndate: {date|isodate} ({date|age})\ncomment: {desc}\n\n'
