@@ -1,3 +1,19 @@
+;; =============================================================================
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("dd4db38519d2ad7eb9e2f30bc03fba61a7af49a185edfd44e020aa5345e3dca7" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
 ;; === emacs wiki stuff ========================================================
 ; --- misc functions -----------------------------------------------------------
 (defun my-dbl (x)
@@ -39,6 +55,21 @@
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'html-mode-hook (lambda ()
+                            (auto-fill-mode -1)))
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(FIXME\\|TODO\\):" 1 'font-lock-warning-face prepend)
+                                      ("\\<\\(and\\|or\\|not\\)\\>" .
+                                       'font-lock-keyword-face)))))
+
+(electric-pair-mode t)
+
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ;; --- flyspell ----------------------------------------------------------------
 (let ((langs '("american"
@@ -179,3 +210,6 @@
       (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.csproj$" . xml-mode)) auto-mode-alist))
+
+;; --- coffeescript ------------------------------------------------------------
+(setq coffee-tab-width 4)
