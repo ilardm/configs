@@ -13,7 +13,7 @@ mq =
 
 [ui]
 username = Ilya Arefiev <arefiev.id@gmail.com>
-editor = vim
+editor = emacsclient -c
 merge = 
 
 [defaults]

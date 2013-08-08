@@ -154,9 +154,10 @@ fi
 
 # custom values
 export LESS="-R"
+export EDITOR="emacsclient -c"
 
 alias emacs='emacs -nw'
-alias eclient='emacsclient'
+alias eclient='emacsclient -c'
 alias xterm='xterm -bg black -fg gray'
 
 alias hgk="hg view"
