@@ -141,6 +141,13 @@
 (setq blink-matching-paren-distance nil)
 
 ;; === extensions ==============================================================
+(dolist (i (list
+            ; --- cedet --------------------------------------------------------
+            ; http://cedet.sourceforge.net/setup.shtml
+            ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
+            "~/.emacs.d/cedet-bzr/contrib/"
+            ))
+  (add-to-list 'load-path i))
 
 ;; --- color-theme -------------------------------------------------------------
 (require 'color-theme)
