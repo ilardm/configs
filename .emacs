@@ -6,7 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("dd4db38519d2ad7eb9e2f30bc03fba61a7af49a185edfd44e020aa5345e3dca7" default))))
+    ("124e34f6ea0bc8a50d3769b9f251f99947d6b4d9422c6d85dc4bcc9c2e51b39c" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -67,9 +67,34 @@
 
 (electric-pair-mode t)
 
+;; --- packages ----------------------------------------------------------------
+;; http://stackoverflow.com/a/10093312
+
+; list the packages you want
+(setq package-list '(color-theme
+		     color-theme-solarized
+		     zenburn-theme
+		     popup
+		     auto-complete
+		     markdown-mode
+		     csharp-mode
+		     ))
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+; activate all the packages (in particular autoloads)
+(package-initialize)
+
+; fetch the list of packages available
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (when (not (package-installed-p package))
+    (package-install package)))
 
 ;; --- flyspell ----------------------------------------------------------------
 (let ((langs '("american"
@@ -116,33 +141,6 @@
 (setq blink-matching-paren-distance nil)
 
 ;; === extensions ==============================================================
-(dolist (i (list ; --- color-theme ---------------------------------------------
-            ; http://download.savannah.gnu.org/releases/color-theme/
-            "~/.emacs.d/color-theme-6.6.0/"
-            ; --- color-theme-solarized ----------------------------------------
-            ; git://github.com/sellout/emacs-color-theme-solarized.git
-            "~/.emacs.d/emacs-color-theme-solarized/"
-            ; --- color-theme-zenburn ------------------------------------------
-            ; https://github.com/bbatsov/zenburn-emacs.git
-            "~/.emacs.d/zenburn-emacs/"
-            ; --- cedet --------------------------------------------------------
-            ; http://cedet.sourceforge.net/setup.shtml
-            ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
-            "~/.emacs.d/cedet-bzr/contrib/"
-            ; --- popup --------------------------------------------------------
-            ; git://github.com/auto-complete/popup-el.git
-            "~/.emacs.d/popup-el/"
-            ;; --- auto-complete -----------------------------------------------
-            ;; git://github.com/auto-complete/auto-complete.git
-            "~/.emacs.d/auto-complete/"
-            ;; --- markdown-mode -----------------------------------------------
-            ;; git://jblevins.org/git/markdown-mode.git
-            "~/.emacs.d/markdown-mode/"
-            ;; --- c-sharp-mode ------------------------------------------------
-            ;; http://code.google.com/p/csharpmode/
-            "~/.emacs.d/csharp/"
-            ))
-  (add-to-list 'load-path i))
 
 ;; --- color-theme -------------------------------------------------------------
 (require 'color-theme)
@@ -154,7 +152,6 @@
      ;; (require 'color-theme-solarized)
      ;; (color-theme-solarized-dark)
      
-     (add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs/")
      (load-theme 'zenburn)
      )))
 
