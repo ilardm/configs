@@ -72,13 +72,14 @@
 
 ; list the packages you want
 (setq package-list '(color-theme
-		     color-theme-solarized
-		     zenburn-theme
-		     popup
-		     auto-complete
-		     markdown-mode
-		     csharp-mode
-		     ))
+                     color-theme-solarized
+                     zenburn-theme
+                     popup
+                     auto-complete
+                     markdown-mode
+                     csharp-mode
+                     coffee-mode
+                     ))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
