@@ -66,6 +66,13 @@
 
 (electric-pair-mode t)
 
+(when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings))
+(global-set-key (kbd "C-c h") 'windmove-left)
+(global-set-key (kbd "C-c l") 'windmove-right)
+(global-set-key (kbd "C-c k") 'windmove-up)
+(global-set-key (kbd "C-c j") 'windmove-down)
+
 ;; --- packages ----------------------------------------------------------------
 ;; http://stackoverflow.com/a/10093312
 
