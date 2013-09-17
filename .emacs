@@ -35,8 +35,7 @@
 (global-hl-line-mode 1)
 (if (eq window-system nil)
     ((lambda ()
-       (set-face-background 'hl-line "white")
-       (set-face-foreground 'hl-line "black"))))
+       (set-face-background 'hl-line "black"))))
 
 (blink-cursor-mode 0)
 (setq mouse-yank-at-point t)
