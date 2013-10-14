@@ -224,3 +224,6 @@
 
 ;; --- coffeescript ------------------------------------------------------------
 (setq coffee-tab-width 4)
+;; https://github.com/akfish/ac-coffee
+(add-to-list 'load-path "~/.emacs.d/ac-coffee/")
+(require 'ac-coffee)
