@@ -156,8 +156,9 @@ fi
 export LESS="-R"
 export EDITOR="emacsclient -c"
 
-alias emacs='emacs -nw'
-alias eclient='emacsclient -c'
+EMACSPATH="/home/ilya/bin/emacs/bin"
+alias emacs='$EMACSPATH/emacs'
+alias eclient='$EMACSPATH/emacsclient -c'
 alias xterm='xterm -bg black -fg gray'
 
 alias hgk="hg view"
@@ -166,10 +167,11 @@ alias memleaks="valgrind --leak-check=full"
 alias feh="feh -S filename -F -d"
 alias make="make -j2"
 
-export PATH="$PATH:/sbin/:/home/ilya/bin/android-sdk-linux_x86/tools/:/home/ilya/bin/node/bin:"
+export PATH="$PATH:/sbin/:"
 
 # Java
-export JAVA_HOME="/opt/jdk1.7.0_15/"
-export ANT_HOME="/opt/apache-ant-1.8.4"
+export JAVA_HOME="/opt/jdk/"
+export ANT_HOME="/opt/apache-ant/"
 export CATALINA_HOME="/home/ilya/bin/apache-tomcat-6.0.33"
 export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/"
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
