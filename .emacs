@@ -65,6 +65,8 @@
                                        'font-lock-keyword-face)))))
 
 (electric-pair-mode t)
+(global-set-key (kbd "C-j")
+                'newline-and-indent)
 
 (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings))
@@ -85,6 +87,10 @@
                      markdown-mode
                      csharp-mode
                      coffee-mode
+		     cedet
+		     semantic
+		     ede
+		     eieio
                      ))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -121,7 +127,7 @@
 (global-set-key (kbd "<f6>")
                 'cycle-ispell-languages)
 
-(add-hook 'text-mode-hook 'flyspell-mode)
+;; (add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; --- development -------------------------------------------------------------
 (global-set-key (kbd "<f7>") 'compile)
@@ -149,10 +155,10 @@
 
 ;; === extensions ==============================================================
 (dolist (i (list
-            ; --- cedet --------------------------------------------------------
-            ; http://cedet.sourceforge.net/setup.shtml
-            ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
-            "~/.emacs.d/cedet-bzr/contrib/"
+            ;; ; --- cedet --------------------------------------------------------
+            ;; ; http://cedet.sourceforge.net/setup.shtml
+            ;; ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
+            ;; "~/.emacs.d/cedet-bzr/contrib/"
             ))
   (add-to-list 'load-path i))
 
@@ -184,19 +190,19 @@
 (ac-config-default)
 
 ;; --- cedet configuration -----------------------------------------------------
-(load-file "~/.emacs.d/cedet-bzr/cedet-devel-load.el")
+;; (load-file "~/.emacs.d/cedet-bzr/cedet-devel-load.el")
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode t)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode t)
 ;; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
 (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
-(semantic-mode 1)
+;; (semantic-mode 1)
 (global-ede-mode 1)
 (require 'semantic/ia)
 (require 'semantic/bovine/gcc)
-(require 'semantic/db-javap)
-(require 'eassist)
+;; (require 'semantic/db-javap)
+;; (require 'eassist)
 
 ; kdb config
 (defun my-cedet-kbd-hook ()
