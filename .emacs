@@ -86,6 +86,7 @@
                      auto-complete
                      markdown-mode
                      csharp-mode
+                     omnisharp
                      coffee-mode
 		     cedet
 		     semantic
@@ -227,6 +228,12 @@
       (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.csproj$" . xml-mode)) auto-mode-alist))
+(add-hook 'csharp-mode-hook 'omnisharp-mode)
+(add-hook 'csharp-mode-hook
+          (lambda ()
+            (local-set-key (kbd "{") 'c-electric-brace)
+            (local-set-key (kbd "M-.") 'omnisharp-auto-complete)
+            ))
 
 ;; --- coffeescript ------------------------------------------------------------
 (setq coffee-tab-width 4)
