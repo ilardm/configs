@@ -92,6 +92,9 @@
 		     semantic
 		     ede
 		     eieio
+                     concurrent         ; broken dependency of genrnc
+                     genrnc
+                     auto-complete-nxml
                      ))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -240,3 +243,9 @@
 ;; https://github.com/akfish/ac-coffee
 (add-to-list 'load-path "~/.emacs.d/ac-coffee/")
 (require 'ac-coffee)
+
+;; --- xml ---------------------------------------------------------------------
+(require 'genrnc)
+(setq genrnc-user-schemas-directory "~/.emacs.d/schema")
+
+(require 'auto-complete-nxml)
