@@ -172,6 +172,9 @@ export PATH="$PATH:/sbin/:"
 # Java
 export JAVA_HOME="/opt/jdk/"
 export ANT_HOME="/opt/apache-ant/"
-export CATALINA_HOME="/home/ilya/bin/apache-tomcat-6.0.33"
-export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/"
+export M2_HOME="/opt/apache-maven/"
+export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/:${M2_HOME}/bin/"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
+
+# mono
+export PATH="${PATH}:/opt/mono/bin"
