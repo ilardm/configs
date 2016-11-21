@@ -12,7 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
 
 ;; === emacs wiki stuff ========================================================
 ; --- misc functions -----------------------------------------------------------
@@ -80,25 +80,28 @@
 
 ; list the packages you want
 (setq package-list '(color-theme
-                     color-theme-solarized
                      zenburn-theme
                      popup
                      auto-complete
                      markdown-mode
-                     csharp-mode
-                     omnisharp
-                     coffee-mode
-		     cedet
-		     semantic
-		     ede
-		     eieio
+                     ;; csharp-mode
+                     ;; omnisharp
+                     ;; coffee-mode
+		     ;; cedet
+		     ;; semantic
+		     ;; ede
+		     ;; eieio
                      concurrent         ; broken dependency of genrnc
                      genrnc
                      auto-complete-nxml
+                     projectile
+                     grizzl
+                     yasnippet
+                     virtualenvwrapper
                      ))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ;; ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ; activate all the packages (in particular autoloads)
@@ -193,59 +196,121 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
-;; --- cedet configuration -----------------------------------------------------
-;; (load-file "~/.emacs.d/cedet-bzr/cedet-devel-load.el")
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode t)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode t)
-;; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
-(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
-;; (semantic-mode 1)
-(global-ede-mode 1)
-(require 'semantic/ia)
-(require 'semantic/bovine/gcc)
-;; (require 'semantic/db-javap)
-;; (require 'eassist)
+;; ;; --- cedet configuration -----------------------------------------------------
+;; ;; (load-file "~/.emacs.d/cedet-bzr/cedet-devel-load.el")
+;; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode t)
+;; (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode t)
+;; ;; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
+;; (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
+;; (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
+;; (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
+;; ;; (semantic-mode 1)
+;; (global-ede-mode 1)
+;; (require 'semantic/ia)
+;; (require 'semantic/bovine/gcc)
+;; ;; (require 'semantic/db-javap)
+;; ;; (require 'eassist)
 
-; kdb config
-(defun my-cedet-kbd-hook ()
-  (my-set-local-key (kbd "C-.")
-                    (cons 'semantic-ia-complete-symbol-menu
-                          'semantic-ia-complete-symbol))
-  (my-set-local-key (kbd "C-c s l")
-                    (my-dbl 'eassist-list-methods))
-  (my-set-local-key (kbd "C-c s j")
-                    (my-dbl 'semantic-ia-fast-jump))
-  (my-set-local-key (kbd "C-c s d")
-                    (my-dbl 'semantic-analyze-proto-impl-toggle))
-  (my-set-local-key (kbd "C-c s D")
-                    (my-dbl 'semantic-ia-show-doc)))
+;; ; kdb config
+;; (defun my-cedet-kbd-hook ()
+;;   (my-set-local-key (kbd "C-.")
+;;                     (cons 'semantic-ia-complete-symbol-menu
+;;                           'semantic-ia-complete-symbol))
+;;   (my-set-local-key (kbd "C-c s l")
+;;                     (my-dbl 'eassist-list-methods))
+;;   (my-set-local-key (kbd "C-c s j")
+;;                     (my-dbl 'semantic-ia-fast-jump))
+;;   (my-set-local-key (kbd "C-c s d")
+;;                     (my-dbl 'semantic-analyze-proto-impl-toggle))
+;;   (my-set-local-key (kbd "C-c s D")
+;;                     (my-dbl 'semantic-ia-show-doc)))
 
-(add-hook 'c-mode-common-hook
-          'my-cedet-kbd-hook)
+;; (add-hook 'c-mode-common-hook
+;;           'my-cedet-kbd-hook)
 
-;; --- c-sharp -----------------------------------------------------------------
-(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
-(setq auto-mode-alist
-      (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.csproj$" . xml-mode)) auto-mode-alist))
-(add-hook 'csharp-mode-hook 'omnisharp-mode)
-(add-hook 'csharp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "{") 'c-electric-brace)
-            (local-set-key (kbd "M-.") 'omnisharp-auto-complete)
-            ))
+;; ;; --- c-sharp -----------------------------------------------------------------
+;; (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
+;; (setq auto-mode-alist
+;;       (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (append '(("\\.csproj$" . xml-mode)) auto-mode-alist))
+;; (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;; (add-hook 'csharp-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "{") 'c-electric-brace)
+;;             (local-set-key (kbd "M-.") 'omnisharp-auto-complete)
+;;             ))
 
-;; --- coffeescript ------------------------------------------------------------
-(setq coffee-tab-width 4)
-;; https://github.com/akfish/ac-coffee
-(add-to-list 'load-path "~/.emacs.d/ac-coffee/")
-(require 'ac-coffee)
+;; ;; --- coffeescript ------------------------------------------------------------
+;; (setq coffee-tab-width 4)
+;; ;; https://github.com/akfish/ac-coffee
+;; (add-to-list 'load-path "~/.emacs.d/ac-coffee/")
+;; (require 'ac-coffee)
 
 ;; --- xml ---------------------------------------------------------------------
 (require 'genrnc)
 (setq genrnc-user-schemas-directory "~/.emacs.d/schema")
 
 (require 'auto-complete-nxml)
+
+;; --- yasnippet ---------------------------------------------------------------
+(require 'yasnippet)
+;; FIXME: hardcoded path
+(setq yas-snippet-dirs '( "~/.emacs.d/elpa/yasnippet-20160517.1628/snippets/" ))
+(yas-global-mode 1)
+
+
+;; --- python ------------------------------------------------------------------
+(require 'virtualenvwrapper)
+;; FIXME: hardcoded path
+(setq venv-location "~/.virtualenv_py/")
+
+;; https://pylint.readthedocs.io/en/latest/user_guide/ide-integration.html
+;; Configure flymake for Python
+(when (load "flymake" t)
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "epylint" (list
+                       local-file
+                       ;; epylint expects options *after* file
+                       ;; FIXME: load plugins per project
+                       "--load-plugins" "pylint_django"))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pylint-init)))
+
+;; Set as a minor mode for Python
+(add-hook 'python-mode-hook '(lambda () (flymake-mode)))
+
+;; Configure to wait a bit longer after edits before starting
+(setq-default flymake-no-changes-timeout '3)
+
+;; Keymaps to navigate to the errors
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-cln" 'flymake-goto-next-error)))
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-clp" 'flymake-goto-prev-error)))
+
+;; To avoid having to mouse hover for the error message, these functions make flymake error messages
+;; appear in the minibuffer
+(defun show-fly-err-at-point ()
+  "If the cursor is sitting on a flymake error, display the message in the minibuffer"
+  (require 'cl)
+  (interactive)
+  (let ((line-no (line-number-at-pos)))
+    (dolist (elem flymake-err-info)
+      (if (eq (car elem) line-no)
+      (let ((err (car (second elem))))
+        (message "%s" (flymake-ler-text err)))))))
+
+(add-hook 'post-command-hook 'show-fly-err-at-point)
+
+(defadvice flymake-goto-next-error (after display-message activate compile)
+  "Display the error in the mini-buffer rather than having to mouse over it"
+  (show-fly-err-at-point))
+
+(defadvice flymake-goto-prev-error (after display-message activate compile)
+  "Display the error in the mini-buffer rather than having to mouse over it"
+  (show-fly-err-at-point))
+
