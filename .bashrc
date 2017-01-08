@@ -60,6 +60,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=100000
+HISTFILESIZE=200000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -154,27 +156,27 @@ fi
 
 # custom values
 export LESS="-R"
-export EDITOR="emacsclient -c"
 
-EMACSPATH="/home/ilya/bin/emacs/bin"
-alias emacs='$EMACSPATH/emacs'
-alias eclient='$EMACSPATH/emacsclient -c'
+alias eclient='emacsclient -c'
 alias xterm='xterm -bg black -fg gray'
-
 alias hgk="hg view"
 alias memleaks="valgrind --leak-check=full"
-
 alias feh="feh -S filename -F -d"
-alias make="make -j2"
+alias bzip="pbzip -z9v"
+alias bunzip="pbzip2 -dv"
+alias mplayer="mplayer -zoom"
 
-export PATH="$PATH:/sbin/:"
+export EDITOR="emacs"
 
-# Java
+export PATH="$PATH:/sbin/:/home/ilya/bin/android-sdk-linux/platform-tools/:/home/ilya/bin/node/bin"
+
+# java
 export JAVA_HOME="/opt/jdk/"
 export ANT_HOME="/opt/apache-ant/"
 export M2_HOME="/opt/apache-maven/"
 export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/:${M2_HOME}/bin/"
-export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 
-# mono
-export PATH="${PATH}:/opt/mono/bin"
+# python
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_SCRIPT=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
+source /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh

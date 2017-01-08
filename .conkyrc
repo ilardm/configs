@@ -22,7 +22,7 @@ use_xft yes
 
 # Xft font when Xft is enabled
 #xftfont Bitstream Vera Sans Mono:size=8
-xftfont DejaVu Sans Mono:size=9
+xftfont DejaVu Sans Mono:size=11
 
 # Text alpha when using Xft
 #xftalpha 0.8
@@ -167,11 +167,11 @@ if_up_strictness address
 TEXT
 ${font DejaVu Sans Mono:size=18}${time %H:%M}${font} ${alignr}${time %Y-%m-%d}
 ${color #abcdef}${hr 2}${color}
-# ${alignc} ${execi 60 cat /etc/debian_version; uname -or}
 $alignc $sysname $kernel @ $nodename
-$uptime ${alignr} ${color}$loadavg | ${color #cc4444}${acpitemp}°C
-${color #cc2222}${cpugraph cpu1 20,100 aaddaa cc0000 -t} ${alignr} ${cpugraph cpu2 20,100 aaddaa cc0000 -t}
-${color #cc4444}${cpu cpu1}% ${color lightgrey}${freq 1} mhz ${alignr}${color #cc4444}${cpu cpu2}% ${color lightgrey}${freq 2} mhz
+$uptime ${alignr} ${color}$loadavg
+${color #cc2222}${cpugraph cpu1 20,100 aaddaa cc0000 -t} ${color #cc4444}${cpu cpu1}% ${alignr} ${color #cc4444}${cpu cpu2}% ${cpugraph cpu2 20,100 aaddaa cc0000 -t}
+${color #cc2222}${cpugraph cpu3 20,100 aaddaa cc0000 -t} ${color #cc4444}${cpu cpu3}% ${alignr} ${color #cc4444}${cpu cpu4}% ${cpugraph cpu4 20,100 aaddaa cc0000 -t}
+#${color #cc4444}${cpu cpu1}% ${color lightgrey}${freq 1} mhz ${alignr}${color #cc4444}${cpu cpu2}% ${color lightgrey}${freq 2} mhz
 #${color lightgrey}RAM:$color $mem | ${color lightgrey}Swap:$color $swap
 ${color lightgrey}RAM :$color $mem ${membar 5,200 }
 ${color lightgrey}SWAP:$color $swap ${swapbar 5,200 }
@@ -190,17 +190,18 @@ ${color #abcdef}${hr 2}${color}
 #
 # FS
 #
-/     : ${fs_bar 5,150 /}${alignr} $color${fs_free /}
-/home : ${fs_bar 5,150 /home} ${alignr} $color${fs_free /home}
+/      : ${fs_bar 5,150 /}${alignr} $color${fs_free /}
+/home  : ${fs_bar 5,150 /home} ${alignr} $color${fs_free /home}
+/share : ${fs_bar 5,150 /mnt/share} ${alignr} $color${fs_free /mnt/share}
 ${color #abcdef}${hr 2}${color}
 #
 # battery
 #
 #${alignr}$color[$battery]$battery_time
-${battery_short} ${battery_time} ${battery_bar BAT0 5,50}
+#${battery_short} ${battery_time} ${battery_bar BAT0 5,50}
 #${execi 21 /home/ilya/exe/scripts/battery.py} ${battery_bar BAT0}
 #${exec /home/ilya/exe/scripts/eee.py}
-${color #abcdef}${hr 2}${color}
+#${color #abcdef}${hr 2}${color}
 #${execi 60 /home/ilya/bin/scripts/net-ip.py}
 #${execi 60 /home/ilya/bin/advice}
 #

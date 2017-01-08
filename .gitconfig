@@ -1,34 +1,37 @@
 [gui]
-        fontui = -family \"dejavu sans mono\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
-        fontdiff = -family \"dejavu sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+fontui = -family \"dejavu sans mono\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
+fontdiff = -family \"dejavu sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 [alias]
-        h = help
-        ci = commit
-        co = checkout
-        st = status
-        l = log --graph --decorate
-        mergeb = merge --no-ff
-        pushd = push origin master --tags
-        pushg = push github master --tags
-        pushb = push bucket master --tags
+h = help
+ci = commit
+co = checkout
+st = status
+l = log --graph --decorate
+mergeb = merge --no-ff
+pushd = push origin master --tags
 
 [core]
-        fileMode = false
-        compression = 5
+fileMode = false
+compression = 5
 
 [color]
-        ui = true
-        branch = auto
-        diff = auto
-        grep = auto
-        status = auto
-        log = auto
+branch = auto
+diff = auto
+grep = auto
+status = auto
+log = auto
 
 [log]
-        date = iso
+date = iso
 
 [user]
-        name = Ilya Arefiev
-        email = arefiev.id@gmail.com
+name = Ilya Arefiev
+email = arefiev.id@gmail.com
 
+[merge]
+tool = kdiff3 -m
+
+[github]
+user = ilardm
+token = 1d1ae1d38fef77e92cfdd2c80d2734bb
