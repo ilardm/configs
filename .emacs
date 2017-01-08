@@ -61,18 +61,18 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j")
-                'newline-and-indent)
+		'newline-and-indent)
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
 (add-hook 'html-mode-hook (lambda ()
-                            (auto-fill-mode -1)))
+			    (auto-fill-mode -1)))
 
 (add-hook 'prog-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("\\<\\(FIXME\\|TODO\\):" 1 'font-lock-warning-face prepend)
-                                      ("\\<\\(and\\|or\\|not\\)\\>" .
-                                       'font-lock-keyword-face)))))
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("\\<\\(FIXME\\|TODO\\):" 1 'font-lock-warning-face prepend)
+				      ("\\<\\(and\\|or\\|not\\)\\>" .
+				       'font-lock-keyword-face)))))
 
 (electric-pair-mode t)
 
@@ -107,7 +107,7 @@
                      ))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+			 ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -123,12 +123,12 @@
 
 ;; --- flyspell ----------------------------------------------------------------
 (let ((langs '("american"
-               "russian")))
+	       "russian")))
   (setq lang-ring
-        (make-ring (length langs)))
+	(make-ring (length langs)))
   (dolist (elem langs)
     (ring-insert lang-ring
-                 elem)))
+		 elem)))
 
 (defun cycle-ispell-languages ()
   (interactive)
@@ -137,7 +137,7 @@
     (ispell-change-dictionary lang)))
 
 (global-set-key (kbd "<f6>")
-                'cycle-ispell-languages)
+		'cycle-ispell-languages)
 
 ;; (add-hook 'text-mode-hook 'flyspell-mode)
 
@@ -145,8 +145,8 @@
 (global-set-key (kbd "<f7>") 'compile)
 
 ;; (setq whitespace-display-mappings
-;;       '((space-mark   ?\    [?\xB7]     [?.])	        ; space
-;;         (space-mark   ?\xA0 [?\xA4]     [?_])	        ; hard space
+;;       '((space-mark   ?\    [?\xB7]     [?.])                ; space
+;;         (space-mark   ?\xA0 [?\xA4]     [?_])                ; hard space
 ;;         (newline-mark ?\n   [?\xB6 ?\n] [?$ ?\n])	; end-of-line
 ;;         (tab-mark     ?\t   [?\xBB ?\t] [?\\ ?\t])	; tab
 ;;         ))
@@ -169,32 +169,32 @@
 
 ;; === extensions ==============================================================
 (dolist (i (list
-            ;; ; --- cedet --------------------------------------------------------
-            ;; ; http://cedet.sourceforge.net/setup.shtml
-            ;; ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
-            ;; "~/.emacs.d/cedet-bzr/contrib/"
-            ))
+	    ;; ; --- cedet --------------------------------------------------------
+	    ;; ; http://cedet.sourceforge.net/setup.shtml
+	    ;; ; http://alexott.net/ru/writings/emacs-devenv/EmacsCedet.html
+	    ;; "~/.emacs.d/cedet-bzr/contrib/"
+	    ))
   (add-to-list 'load-path i))
 
 ;; --- color-theme -------------------------------------------------------------
 (require 'color-theme)
-;; (color-theme-initialize)
+(color-theme-initialize)
 (if (eq window-system nil)
     ((lambda ()
        (color-theme-clarity)))
   ((lambda ()
      ;; (require 'color-theme-solarized)
      ;; (color-theme-solarized-dark)
-     
+
      (load-theme 'zenburn)
      )))
 
-;; --- markdown-mode
+;; --- markdown-mode -----------------------------------------------------------
 (autoload 'markdown-mode "markdown-mode.el"
   "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.md" . markdown-mode)
-            auto-mode-alist))
+	    auto-mode-alist))
 
 ;; --- popup -------------------------------------------------------------------
 (require 'popup)
@@ -277,17 +277,17 @@
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
+		       'flymake-create-temp-inplace))
+	   (local-file (file-relative-name
+			temp-file
+			(file-name-directory buffer-file-name))))
       (list "epylint" (list
-                       local-file
-                       ;; epylint expects options *after* file
-                       ;; FIXME: load plugins per project
-                       "--load-plugins" "pylint_django"))))
+		       local-file
+		       ;; epylint expects options *after* file
+		       ;; FIXME: load plugins per project
+		       "--load-plugins" "pylint_django"))))
   (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+	       '("\\.py\\'" flymake-pylint-init)))
 
 ;; Set as a minor mode for Python
 (add-hook 'python-mode-hook '(lambda () (flymake-mode)))
@@ -309,7 +309,7 @@
     (dolist (elem flymake-err-info)
       (if (eq (car elem) line-no)
       (let ((err (car (second elem))))
-        (message "%s" (flymake-ler-text err)))))))
+	(message "%s" (flymake-ler-text err)))))))
 
 (add-hook 'post-command-hook 'show-fly-err-at-point)
 
@@ -320,20 +320,6 @@
 (defadvice flymake-goto-prev-error (after display-message activate compile)
   "Display the error in the mini-buffer rather than having to mouse over it"
   (show-fly-err-at-point))
-
-;; ;; --- coffeescript ------------------------------------------------------------
-;; (setq coffee-tab-width 4)
-;; ;; https://github.com/akfish/ac-coffee
-;; (add-to-list 'load-path "~/.emacs.d/ac-coffee/")
-;; (require 'ac-coffee)
-
-;; --- xml ---------------------------------------------------------------------
-(require 'genrnc)
-(setq genrnc-user-schemas-directory "~/.emacs.d/schema")
-
-(require 'auto-complete-nxml)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 
 ;; --- yasnippet ---------------------------------------------------------------
 (require 'yasnippet)
