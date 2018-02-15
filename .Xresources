@@ -1,0 +1,4 @@
+xterm.termName: xterm-256color
+xterm*font: *-fixed-*-*-*-18-*
+xterm*metaSendsEscape: true
+xterm*faceName: DeJaVu Sans mono:size=10:antialias=true

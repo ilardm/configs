@@ -16,6 +16,7 @@ fileMode = false
 compression = 5
 
 [color]
+ui = true
 branch = auto
 diff = auto
 grep = auto
@@ -28,6 +29,9 @@ date = iso
 [user]
 name = Ilya Arefiev
 email = arefiev.id@gmail.com
+
+[diff]
+tool = kdiff3
 
 [merge]
 tool = kdiff3 -m

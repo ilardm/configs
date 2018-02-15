@@ -1,11 +1,3 @@
-#!/bin/bash
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-#exec xterm
-#exec wmii
-#exec ratpoison
-#exec icewm-session
-#exec startfluxbox
-#exec openbox-session
-exec startkde
-#exec xfce4-session
-#exec awesome
+exec i3

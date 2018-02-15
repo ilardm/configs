@@ -1,180 +1,53 @@
-# Conky sample configuration
-#
-# the list of variables has been removed from this file in favour
-# of keeping the documentation more maintainable.
-# Check http://conky.sf.net for an up-to-date-list.
+conky.config = {
+    alignment = 'top_left',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=10',
+    gap_x = 30,
+    gap_y = 25,
+    minimum_height = 5,
+    minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_transparent = true,
+    own_window_class = 'Conky',
+    own_window_type = 'override',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    stippled_borders = 0,
+    update_interval = 3.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false
+}
 
-# set to yes if you want Conky to be forked in the background
-background no
-
-# X font when Xft is disabled, you can pick one with program xfontsel
-#font 5x7
-#font 6x10
-#font 7x13
-#font 8x13
-#font 9x15
-#font *mintsmild.se*
-#font -*-*-*-*-*-*-34-*-*-*-*-*-*-*
-#font 8x16
-
-# Use Xft?
-use_xft yes
-
-# Xft font when Xft is enabled
-#xftfont Bitstream Vera Sans Mono:size=8
-xftfont DejaVu Sans Mono:size=11
-
-# Text alpha when using Xft
-#xftalpha 0.8
-
-# Print everything to stdout?
-# out_to_console no
-
-# MPD host/port
- mpd_host localhost
- mpd_port 6600
-# mpd_password tinker_bell
-
-# Print everything to console?
-# out_to_console no
-
-# mail spool
-#mail_spool $MAIL
-
-# Update interval in seconds
-#update_interval 1
-update_interval 3
-
-
-# This is the number of times Conky will update before quitting.
-# Set to zero to run forever.
-#total_run_times 10
-
-# Create own window instead of using desktop (required in nautilus)
-#own_window yes
-
-# If own_window is yes, you may use type normal, desktop or override
-#own_window_type normal
-own_window_type desktop
-
-# Use pseudo transparency with own_window?
-own_window_transparent yes
-
-# If own_window_transparent is set to no, you can set the background colour here
-own_window_colour hotpink
-
-# If own_window is yes, these window manager hints may be used
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-
-# Use double buffering (reduces flicker, may not work for everyone)
-double_buffer yes
-
-# Minimum size of text area
-minimum_size 280 5
-
-# Draw shades?
-draw_shades no
-
-# Draw outlines?
-draw_outline no
-
-# Draw borders around text
-draw_borders no
-
-# Draw borders around graphs
-draw_graph_borders no
-
-# Stippled borders?
-stippled_borders 8
-
-# border margins
-#border_margin 4
-border_inner_margin 4
-border_outer_margin 8
-
-# border width
-border_width 1
-
-# Default colors and also border colors
-default_color white
-default_shade_color black
-default_outline_color black
-
-# Text alignment, other possible values are commented
-alignment top_left
-# alignment top_right
-#alignment bottom_left
-#alignment bottom_right
-#alignment none
-
-# Gap between borders of screen and text
-# same thing as passing -x at command line
-gap_x 30
-gap_y 25
-
-# Subtract file system buffers from used memory?
-no_buffers yes
-
-# set to yes if you want all text to be in uppercase
-uppercase no
-
-# number of cpu samples to average
-# set to 1 to disable averaging
-cpu_avg_samples 2
-
-# number of net samples to average
-# set to 1 to disable averaging
-net_avg_samples 2
-
-# Force UTF8? note that UTF8 support required XFT
-override_utf8_locale yes
-
-# Add spaces to keep things from moving about?  This only affects certain objects.
-use_spacer none
-
-# Shows the maximum value in scaled graphs.
-show_graph_scale yes
-
-# Shows the time range covered by a graph.
-show_graph_range no
-
-# Allow each port monitor to track at most this many connections (if 0 or not set, default is 256)
-#max_port_monitor_connections 256
-
-# Maximum number of special things, e.g. fonts, offsets, aligns, etc.
-#max_specials 512
-
-# Maximum size of buffer for user text, i.e. below TEXT line.
-#max_user_text 16384
-
-# Timing interval for music player thread, e.g. mpd, audacious
-#music_player_interval (update_interval is default)
-
-# Strictness of if_up. One of: up, link or address. The later ones imply the further ones.
-# Defaults to up.
-if_up_strictness address
-
-# variable is given either in format $variable or in ${variable}. Latter
-# allows characters right after the variable and must be used in network
-# stuff because of an argument
-
-# stuff after 'TEXT' will be formatted on screen
-
-#TEXT
-#
-# date time
-#
-TEXT
+conky.text = [[
 ${font DejaVu Sans Mono:size=18}${time %H:%M}${font} ${alignr}${time %Y-%m-%d}
 ${color #abcdef}${hr 2}${color}
+${execpi 3600 ncal -Mw3 | sed -re "s/(\x5f\x08[0-9\ ])+\ /\$\{color \#28c728\}`date +%_d`\$color /"}
+${color #abcdef}${hr 2}${color}
 $alignc $sysname $kernel @ $nodename
-$uptime ${alignr} ${color}$loadavg
-${color #cc2222}${cpugraph cpu1 20,100 aaddaa cc0000 -t} ${color #cc4444}${cpu cpu1}% ${alignr} ${color #cc4444}${cpu cpu2}% ${cpugraph cpu2 20,100 aaddaa cc0000 -t}
-${color #cc2222}${cpugraph cpu3 20,100 aaddaa cc0000 -t} ${color #cc4444}${cpu cpu3}% ${alignr} ${color #cc4444}${cpu cpu4}% ${cpugraph cpu4 20,100 aaddaa cc0000 -t}
-#${color #cc4444}${cpu cpu1}% ${color lightgrey}${freq 1} mhz ${alignr}${color #cc4444}${cpu cpu2}% ${color lightgrey}${freq 2} mhz
+$uptime ${alignr} ${color}$loadavg | ${color #cc4444}${acpitemp}°C
+${color #cc2222}${cpugraph cpu1 20,100 aaddaa cc0000 -t} ${alignr} ${cpugraph cpu2 20,100 aaddaa cc0000 -t}
+${color #cc4444}${cpu cpu1}% ${color lightgrey}${freq 1} mhz ${alignr}${color #cc4444}${cpu cpu2}% ${color lightgrey}${freq 2} mhz
+${color #abcdef}${hr 2}${color}
 #${color lightgrey}RAM:$color $mem | ${color lightgrey}Swap:$color $swap
-${color lightgrey}RAM :$color $mem ${membar 5,200 }
-${color lightgrey}SWAP:$color $swap ${swapbar 5,200 }
+${color lightgrey}RAM :$color $mem ${alignr}${membar 5,300 }
+${color lightgrey}SWAP:$color $swap ${alignr}${swapbar 5,300 }
 ${color #abcdef}${hr 2}${color}
 # #
 # # ~top
@@ -190,16 +63,15 @@ ${color #abcdef}${hr 2}${color}
 #
 # FS
 #
-/      : ${fs_bar 5,150 /}${alignr} $color${fs_free /}
-/home  : ${fs_bar 5,150 /home} ${alignr} $color${fs_free /home}
-/share : ${fs_bar 5,150 /mnt/share} ${alignr} $color${fs_free /mnt/share}
+/      : ${fs_free /} ${alignr}${fs_bar 5,300 /}
+/home  : ${fs_free /home} ${alignr}${fs_bar 5,300 /home}
 ${color #abcdef}${hr 2}${color}
 #
 # battery
 #
 #${alignr}$color[$battery]$battery_time
-#${battery_short} ${battery_time} ${battery_bar BAT0 5,50}
-#${execi 21 /home/ilya/exe/scripts/battery.py} ${battery_bar BAT0}
+${battery_short BAT1} ${battery_time BAT1} ${alignr}${battery_bar 5,300 BAT1}
+#${execi 21 /home/ilya/exe/scripts/battery.py} ${battery_bar BAT1}
 #${exec /home/ilya/exe/scripts/eee.py}
 #${color #abcdef}${hr 2}${color}
 #${execi 60 /home/ilya/bin/scripts/net-ip.py}
@@ -207,18 +79,19 @@ ${color #abcdef}${hr 2}${color}
 #
 # eth0
 #
-${if_up eth0} ${color}eth0: ${addr eth0}
- ${color #cc8888}${downspeedf eth0} kb/s ${totaldown eth0} ${alignr} ${color #679967}${upspeedf eth0} kb/s ${totalup eth0}
- ${color #ffffff}${downspeedgraph eth0 20,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph eth0 20,100 679967 009900 -t}$color${endif}
+${if_up eth0}${color}eth0: ${addr eth0}
+${color #cc8888}${downspeedf eth0} kb/s ${totaldown eth0} ${alignr} ${color #679967}${upspeedf eth0} kb/s ${totalup eth0}
+${color #ffffff}${downspeedgraph eth0 20,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph eth0 20,100 679967 009900 -t}$color${endif}
 #
 # wlan0
 #
-${if_up wlan0} ${color}wlan0: ${addr wlan0} ${alignr} ${wireless_essid wlan0} ${wireless_link_qual_perc wlan0}%
- ${color #cc8888}${downspeedf wlan0} kb/s ${totaldown wlan0} ${alignr} ${color #679967} ${upspeedf wlan0} kb/s ${totalup wlan0}
- ${color #ffffff}${downspeedgraph wlan0 30,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph wlan0 30,100 679967 009900 -t}${endif}
+${if_up wlan0}${color}wlan0: ${addr wlan0} ${alignr} ${wireless_essid wlan0} ${wireless_link_qual_perc wlan0}%
+${color #cc8888}${downspeedf wlan0} kb/s ${totaldown wlan0} ${alignr} ${color #679967} ${upspeedf wlan0} kb/s ${totalup wlan0}
+${color #ffffff}${downspeedgraph wlan0 30,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph wlan0 30,100 679967 009900 -t}${endif}
 #
 # usb0
 #
-${if_up usb0} ${color}usb0: ${addr usb0}
- ${color #cc8888}${downspeedf usb0} kb/s ${totaldown usb0} ${alignr} ${color #679967} ${upspeedf usb0} kb/s ${totalup usb0}
- ${color #ffffff}${downspeedgraph usb0 20,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph usb0 20,100 679967 009900 -t}${endif}
+${if_up usb0}${color}usb0: ${addr usb0}
+${color #cc8888}${downspeedf usb0} kb/s ${totaldown usb0} ${alignr} ${color #679967} ${upspeedf usb0} kb/s ${totalup usb0}
+${color #ffffff}${downspeedgraph usb0 20,100 cc8888 cc0000 -t} ${alignr} ${color #ffffff}${upspeedgraph usb0 20,100 679967 009900 -t}${endif}
+]]

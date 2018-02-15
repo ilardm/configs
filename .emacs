@@ -1,12 +1,16 @@
-;; =============================================================================
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("124e34f6ea0bc8a50d3769b9f251f99947d6b4d9422c6d85dc4bcc9c2e51b39c" default))))
+    ("f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" default)))
+ '(ledger-post-amount-alignment-at :decimal)
+ '(package-selected-packages
+   (quote
+    (flycheck-ledger ledger-mode lsp-python lsp-java lsp-mode zenburn-theme yasnippet virtualenvwrapper projectile markdown-mode grizzl genrnc color-theme auto-complete-nxml))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,7 +18,9 @@
  ;; If there is more than one, they won't work right.
  )
 
-(set-frame-font "DeJaVu Sans Mono 12")
+;; =============================================================================
+
+(set-frame-font "DeJaVu Sans Mono 10")
 
 ;; === emacs wiki stuff ========================================================
 ; --- misc functions -----------------------------------------------------------
@@ -81,7 +87,7 @@
 ;; http://stackoverflow.com/a/10093312
 
 ; list the packages you want
-(setq package-list '(;; color-theme
+(setq package-list '(color-theme
                      ;; color-theme-solarized
                      zenburn-theme
                      popup
@@ -264,7 +270,7 @@
 ;; --- python ------------------------------------------------------------------
 (require 'virtualenvwrapper)
 ;; FIXME: hardcoded path
-(setq venv-location "~/.virtualenv_py/")
+(setq venv-location "~/.virtualenvs/")
 
 ;; https://pylint.readthedocs.io/en/latest/user_guide/ide-integration.html
 ;; Configure flymake for Python
@@ -333,57 +339,3 @@
 (require 'yasnippet)
 (setq yas-snippet-dirs '( "~/.emacs.d/elpa/yasnippet-20160801.1142/snippets/" ))
 (yas-global-mode 1)
-
-
-;; --- python ------------------------------------------------------------------
-(require 'virtualenvwrapper)
-(setq venv-location "~/.virtualenvs/")
-
-;; https://docs.pylint.org/ide-integration
-;; Configure flymake for Python
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "epylint" (list
-                       local-file
-                       ;; epylint expects options *after* file
-                       ;; "--load-plugins" "pylint_django"
-                       ))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
-
-;; Set as a minor mode for Python
-(add-hook 'python-mode-hook '(lambda () (flymake-mode)))
-
-;; Configure to wait a bit longer after edits before starting
-(setq-default flymake-no-changes-timeout '3)
-
-;; Keymaps to navigate to the errors
-(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-cln" 'flymake-goto-next-error)))
-(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-clp" 'flymake-goto-prev-error)))
-
-;; To avoid having to mouse hover for the error message, these functions make flymake error messages
-;; appear in the minibuffer
-(defun show-fly-err-at-point ()
-  "If the cursor is sitting on a flymake error, display the message in the minibuffer"
-  (require 'cl)
-  (interactive)
-  (let ((line-no (line-number-at-pos)))
-    (dolist (elem flymake-err-info)
-      (if (eq (car elem) line-no)
-      (let ((err (car (second elem))))
-        (message "%s" (flymake-ler-text err)))))))
-
-(add-hook 'post-command-hook 'show-fly-err-at-point)
-
-(defadvice flymake-goto-next-error (after display-message activate compile)
-  "Display the error in the mini-buffer rather than having to mouse over it"
-  (show-fly-err-at-point))
-
-(defadvice flymake-goto-prev-error (after display-message activate compile)
-  "Display the error in the mini-buffer rather than having to mouse over it"
-  (show-fly-err-at-point))

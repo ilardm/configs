@@ -166,9 +166,9 @@ alias bzip="pbzip -z9v"
 alias bunzip="pbzip2 -dv"
 alias mplayer="mplayer -zoom"
 
-export EDITOR="emacs"
+export EDITOR="emacsclient -c"
 
-export PATH="$PATH:/sbin/:/home/ilya/bin/android-sdk-linux/platform-tools/:/home/ilya/bin/node/bin"
+export PATH="$PATH:/sbin/"
 
 # java
 export JAVA_HOME="/opt/jdk/"
