@@ -45,17 +45,21 @@
   (set-frame-font "Menlo-12")))
 
 ;; === packages ================================================================
+(require 'package)
+
 (add-to-list 'package-archives
 	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 (package-initialize)
 
+;; --- use-package -------------------------------------------------------------
 (eval-when-compile
   (require 'use-package))
 
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+;; --- packages ----------------------------------------------------------------
 (use-package zenburn-theme
   :config
   (load-theme 'zenburn t))
@@ -68,6 +72,8 @@
 (use-package yaml-mode)
 (use-package toml)
 (use-package rust-mode)
+
+(use-package magit)
 
 (use-package projectile
   :config
