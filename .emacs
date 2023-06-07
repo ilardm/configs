@@ -44,6 +44,16 @@
  ((find-font (font-spec :name "Menlo"))
   (set-frame-font "Menlo-12")))
 
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; store all backup and autosave files in the tmp dir
+;; https://github.com/bbatsov/emacs.d/blob/3d3cb04bd69b05b040e7022b618f482da145e8ce/init.el#L135
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; === packages ================================================================
 (require 'package)
 
