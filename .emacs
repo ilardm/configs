@@ -58,7 +58,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
 
@@ -103,6 +103,8 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs)
+
+(use-package ledger-mode)
 
 ;; --- beancount ---------------------------------------------------------------
 (add-to-list 'load-path
