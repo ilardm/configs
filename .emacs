@@ -16,6 +16,7 @@
 (column-number-mode t)
 (show-paren-mode 1)
 (electric-pair-mode t)
+(global-auto-revert-mode t)
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -24,8 +25,8 @@
 (setq-default fill-column 80)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(define-key global-map (kbd "RET") 'newline-and-indent)
-(global-set-key (kbd "C-j") 'newline-and-indent)
+(define-key global-map (kbd "RET") 'newline)
+(global-set-key (kbd "C-j") 'newline)
 
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
@@ -106,6 +107,9 @@
 
 (use-package ledger-mode)
 
+(use-package uuidgen)
+
+
 ;; --- beancount ---------------------------------------------------------------
 (add-to-list 'load-path
              (expand-file-name "packages-ext/beancount-mode/" user-emacs-directory))
@@ -113,3 +117,10 @@
 (add-to-list 'auto-mode-alist
              '("\\.beancount\\'" . beancount-mode))
 (add-hook 'beancount-mode-hook 'outline-minor-mode)
+
+
+;; --- org-mode ----------------------------------------------------------------
+;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
+;; edit files to a single directory
+(global-set-key (kbd "C-c a") #'org-agenda)
+(setq org-agenda-span 14)
