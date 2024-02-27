@@ -63,6 +63,9 @@
 
 (package-initialize)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
 ;; --- use-package -------------------------------------------------------------
 (eval-when-compile
   (require 'use-package))
@@ -124,3 +127,5 @@
 ;; edit files to a single directory
 (global-set-key (kbd "C-c a") #'org-agenda)
 (setq org-agenda-span 14)
+(setq calendar-week-start-day 1)
+(setq org-startup-indented t)
