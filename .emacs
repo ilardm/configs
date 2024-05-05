@@ -110,8 +110,6 @@
 
 (use-package ledger-mode)
 
-(use-package uuidgen)
-
 
 ;; --- beancount ---------------------------------------------------------------
 (add-to-list 'load-path
@@ -126,6 +124,10 @@
 ;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
 ;; edit files to a single directory
 (global-set-key (kbd "C-c a") #'org-agenda)
-(setq org-agenda-span 14)
-(setq calendar-week-start-day 1)
 (setq org-startup-indented t)
+(setq org-agenda-span 14)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+(setq calendar-week-start-day 1)
+(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
