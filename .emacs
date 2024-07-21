@@ -17,6 +17,7 @@
 (show-paren-mode 1)
 (electric-pair-mode t)
 (global-auto-revert-mode t)
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -55,6 +56,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; spellcheck
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 ;; === packages ================================================================
 (require 'package)
 
@@ -70,13 +75,23 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
+;; auto-download missing packages
+;; (require 'use-package-ensure)
+;; (setq use-package-always-ensure t)
 
 ;; --- packages ----------------------------------------------------------------
-(use-package zenburn-theme
+;; (use-package zenburn-theme
+;;   :config
+;;   (load-theme 'zenburn t))
+
+(use-package solarized-theme
+  :init
+  (setq solarized-use-variable-pitch nil)
+  (setq solarized-scale-org-headlines nil)
+  (setq solarized-scale-markdown-headlines nil)
+  (setq x-underline-at-descent-line t)
   :config
-  (load-theme 'zenburn t))
+  (load-theme 'solarized-dark t))
 
 (use-package hl-todo
   :config
@@ -108,23 +123,46 @@
 
 (use-package tree-sitter-langs)
 
+(use-package flycheck
+  :config
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+
+(use-package flycheck-pyflakes)
+
+(use-package company
+  :config
+  (add-hook 'prog-mode-hook 'company-mode))
+
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package todotxt-mode
+  :bind
+  ("C-c t" . todotxt-open-file)
+  :init
+  (defvar todotxt-due-tag "due")
+  (add-to-list 'auto-mode-alist '("todo\\.txt\\'" . todotxt-mode))
+  (add-to-list 'auto-mode-alist '("done\\.txt\\'" . todotxt-mode)))
+
+
 (use-package ledger-mode)
 
-
 ;; --- beancount ---------------------------------------------------------------
-(add-to-list 'load-path
-             (expand-file-name "packages-ext/beancount-mode/" user-emacs-directory))
-(require 'beancount)
-(add-to-list 'auto-mode-alist
-             '("\\.beancount\\'" . beancount-mode))
-(add-hook 'beancount-mode-hook 'outline-minor-mode)
-
+(use-package beancount
+  :load-path (lambda () (expand-file-name "packages-ext/beancount-mode/" user-emacs-directory))
+  :init
+  (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
+  (add-hook 'beancount-mode-hook 'outline-minor-mode))
 
 ;; --- org-mode ----------------------------------------------------------------
+(use-package uuidgen)
+
 ;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
 ;; edit files to a single directory
 (global-set-key (kbd "C-c a") #'org-agenda)
 (setq org-startup-indented t)
+(setq org-tags-column 0)
 (setq org-agenda-span 14)
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
