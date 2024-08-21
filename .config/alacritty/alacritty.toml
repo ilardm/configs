@@ -1,0 +1,13 @@
+[font]
+size = 10.0
+
+[font.normal]
+#family = "DeJaVu Sans Mono"
+family = "DejaVuSansM Nerd Font Mono"
+
+[general]
+import = [
+       #"~/.config/alacritty/alacritty-theme/themes/zenburn.toml",
+       "~/.config/alacritty/alacritty-theme/themes/solarized_dark.toml",
+       #"~/.config/alacritty/alacritty-theme/themes/solarized_light.toml",
+]
