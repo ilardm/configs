@@ -1,15 +1,17 @@
 ;; config changes made through the customize UI will be stored here
 ;; https://github.com/bbatsov/emacs.d/blob/3d3cb04bd69b05b040e7022b618f482da145e8ce/init.el#L900
+
+;; set custom file path, but do not evaluate it: customize variables and move it
+;; to the appropriate package config section
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(when (file-exists-p custom-file)
-  (load custom-file))
+;; (when (file-exists-p custom-file)
+;;   (load custom-file))
 
 ;; === general config ==========================================================
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(setq inhibit-startup-message t)
 (global-font-lock-mode 1)
 (global-hl-line-mode 1)
 (blink-cursor-mode -1)
@@ -17,30 +19,24 @@
 (show-paren-mode 1)
 (electric-pair-mode t)
 (global-auto-revert-mode t)
-(add-hook 'text-mode-hook 'display-line-numbers-mode)
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(setq-default fill-column 80)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (define-key global-map (kbd "RET") 'newline)
 (global-set-key (kbd "C-j") 'newline)
 
-(setq-default indent-tabs-mode nil)
-(setq tab-width 4)
 (setq c-basic-offset 4)
-(setq tab-always-indent nil)
 (setq c-tab-always-indent nil)
-(setq require-final-newline 'visit-save)
-(setq blink-matching-paren-distance nil)
-(setq tab-always-indent 'complete)
 
 ;; let's pick a nice font
 ;; https://github.com/bbatsov/emacs.d/blob/3d3cb04bd69b05b040e7022b618f482da145e8ce/init.el#L90
 (cond
+ ((find-font (font-spec :name "DejaVuSansM Nerd Font"))
+  (set-frame-font "DejaVuSansM Nerd Font-10"))
  ((find-font (font-spec :name "DejaVu Sans Mono"))
   (set-frame-font "DejaVu Sans Mono-10"))
  ((find-font (font-spec :name "Menlo"))
@@ -59,6 +55,8 @@
 ;; spellcheck
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+(add-hook 'text-mode-hook 'auto-fill-mode)
 
 ;; === packages ================================================================
 (require 'package)
@@ -80,16 +78,33 @@
 ;; (setq use-package-always-ensure t)
 
 ;; --- packages ----------------------------------------------------------------
+(use-package emacs
+  :demand t
+  :custom
+  (inhibit-startup-screen t)
+  (indent-tabs-mode nil)
+  (tab-always-indent nil)
+  (tab-width 4)
+  (fill-column 80)
+  (truncate-lines t)
+  (require-final-newline t)
+  (blink-matching-paren-distance nil)
+  (global-display-line-numbers-mode t)
+  (display-line-numbers-type 'relative)
+  (custom-safe-themes '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c"
+                        "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3"
+                        default)))
+
 ;; (use-package zenburn-theme
 ;;   :config
 ;;   (load-theme 'zenburn t))
 
 (use-package solarized-theme
-  :init
-  (setq solarized-use-variable-pitch nil)
-  (setq solarized-scale-org-headlines nil)
-  (setq solarized-scale-markdown-headlines nil)
-  (setq x-underline-at-descent-line t)
+  :custom
+  (solarized-use-variable-pitch nil)
+  (solarized-scale-org-headlines nil)
+  (solarized-scale-markdown-headlines nil)
+  (x-underline-at-descent-line t)
   :config
   (load-theme 'solarized-dark t))
 
@@ -131,7 +146,9 @@
 
 (use-package company
   :config
-  (add-hook 'prog-mode-hook 'company-mode))
+  (add-hook 'prog-mode-hook 'company-mode)
+  :custom
+  (company-transformers '(company-sort-by-occurrence)))
 
 (use-package rainbow-delimiters
   :config
