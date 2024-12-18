@@ -175,14 +175,45 @@
 ;; --- org-mode ----------------------------------------------------------------
 (use-package uuidgen)
 
-;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
-;; edit files to a single directory
-(global-set-key (kbd "C-c a") #'org-agenda)
-(setq org-startup-indented t)
-(setq org-tags-column 0)
-(setq org-agenda-span 14)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-(setq calendar-week-start-day 1)
-(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+(use-package org
+  :bind
+  ("C-c a" . org-agenda)
+  :custom
+  ;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
+  ;; edit files to a single directory
+  (org-agenda-files '("~/doc/org-notes/tasks.org"))
+  (org-agenda-span 14)
+  (org-agenda-skip-scheduled-if-done t)
+  (org-agenda-skip-deadline-if-done t)
+  (org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (org-startup-indented t)
+  (org-tags-column 0)
+  (calendar-week-start-day 1)
+  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+
+(use-package org-roam
+  :after org
+  :custom
+  (org-roam-directory "~/doc/org-notes/")
+  (org-roam-file-exclude-regexp '(".stversions/"))
+  (org-roam-db-autosync-mode t)
+  (org-roam-node-display-template "${title} :: ${file}")
+  (org-roam-extract-new-file-path "${slug}.org")
+  (org-roam-capture-templates
+   '(("w" "work note" plain "%?" :target
+      (file+head "i3d/${slug}.org" "#+title: ${title}")
+      :unnarrowed t)
+     ("d" "default" plain "%?" :target
+      (file+head "${slug}.org" "#+title: ${title}")
+      :unnarrowed t)))
+  (org-roam-dailies-directory "")
+  (org-roam-dailies-capture-templates
+   '(("W" "i3d weekly" entry "* %<%Y-%m-%d %H:%M> %?" :target
+      (file+head "i3d/weekly/%<%Y>/%<%Y-w%W>.org" "#+title: %<%Y - w%W>")
+      nil nil)
+     ("d" "default" entry "* %?" :target
+      (file+head "daily/%<%Y>/%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
+      nil nil))))
+
+(use-package org-roam-ui
+  :after org-roam)
