@@ -30,6 +30,10 @@
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
+(defun turn-off-auto-fill ()
+  (auto-fill-mode -1))
+(add-hook 'html-mode-hook 'turn-off-auto-fill)
+(add-hook 'yaml-mode-hook 'turn-off-auto-fill)
 
 ;; === packages ================================================================
 (require 'package)
@@ -107,15 +111,24 @@
   (load-theme 'solarized-dark t))
 
 (use-package hl-todo
-  :config
+  :custom
   (global-hl-todo-mode 1))
+
+(use-package indent-bars
+  :custom
+  (indent-bars-prefer-character t)
+  :hook prog-mode)
 
 (use-package markdown-mode)
 (use-package yaml-mode)
 (use-package toml)
+(use-package adoc-mode)
+
 (use-package rust-mode)
 
-(use-package magit)
+(use-package magit
+  :custom
+  (magit-log-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)))
 
 (use-package icomplete
   :custom
@@ -123,16 +136,22 @@
   (icomplete-vertical-mode t)
   (completion-styles '(basic flex)))
 
+(use-package rg
+  :custom
+  (grep-command "rg")
+  (xref-search-program 'ripgrep))
 
-(use-package rg)
+(use-package treesit
+  :custom
+  (treesit-font-lock-level 3))
 
-(use-package tree-sitter
+(use-package treesit-auto
+  :demand t
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs)
-
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package flymake
   :hook prog-mode
@@ -140,14 +159,12 @@
   ("C-c ! n" . flymake-goto-next-error))
 
 (use-package company
-  :config
-  (add-hook 'prog-mode-hook 'company-mode)
+  :hook prog-mode
   :custom
   (company-transformers '(company-sort-by-occurrence)))
 
 (use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :hook prog-mode)
 
 (use-package todotxt-mode
   :bind
@@ -212,3 +229,24 @@
 
 (use-package org-roam-ui
   :after org-roam)
+
+(use-package js
+  :mode "\\.mjs\\'")
+
+(use-package poetry
+  :after python
+  :custom
+  (poetry-tracking-mode t)
+  (poetry-tracking-strategy 'project))
+
+(use-package direnv
+  :custom
+  (direnv-mode t))
+
+(defun my-go-mode-hook ()
+  (setq tab-width 4
+        indent-tabs-mode t))
+
+(use-package go-mode
+  :hook (go-mode . my-go-mode-hook))
+
