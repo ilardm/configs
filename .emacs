@@ -184,9 +184,8 @@
   (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
   (add-hook 'beancount-mode-hook 'outline-minor-mode))
 
-;; --- org-mode ----------------------------------------------------------------
-(use-package uuidgen)
 
+;; --- org-mode ----------------------------------------------------------------
 (use-package org
   :bind
   ("C-c a" . org-agenda)
@@ -201,10 +200,15 @@
   (org-startup-indented t)
   (org-tags-column 0)
   (calendar-week-start-day 1)
-  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+  (org-babel-load-languages '((emacs-lisp . t)
+                              (shell . t)))
+  (org-icalendar-include-todo 'all))
 
 (use-package org-roam
   :after org
+  :bind (("C-c r t" . org-roam-dailies-goto-today)
+         ("C-c r c" . org-roam-dailies-capture-today))
   :custom
   (org-roam-directory "~/doc/org-notes/")
   (org-roam-file-exclude-regexp '(".stversions/"))
@@ -216,15 +220,12 @@
       (file+head "i3d/${slug}.org" "#+title: ${title}")
       :unnarrowed t)
      ("d" "default" plain "%?" :target
-      (file+head "${slug}.org" "#+title: ${title}")
+      (file+head "notes/${slug}.org" "#+title: ${title}")
       :unnarrowed t)))
   (org-roam-dailies-directory "")
   (org-roam-dailies-capture-templates
    '(("W" "i3d weekly" entry "* %<%Y-%m-%d %H:%M> %?" :target
       (file+head "i3d/weekly/%<%Y>/%<%Y-w%W>.org" "#+title: %<%Y - w%W>")
-      nil nil)
-     ("d" "default" entry "* %?" :target
-      (file+head "daily/%<%Y>/%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
       nil nil))))
 
 (use-package org-roam-ui
