@@ -1,36 +1,9 @@
-;; config changes made through the customize UI will be stored here
-;; https://github.com/bbatsov/emacs.d/blob/3d3cb04bd69b05b040e7022b618f482da145e8ce/init.el#L900
-
-;; set custom file path, but do not evaluate it: customize variables and move it
-;; to the appropriate package config section
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-;; (when (file-exists-p custom-file)
-;;   (load custom-file))
-
 ;; === general config ==========================================================
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(global-font-lock-mode 1)
-(global-hl-line-mode 1)
-(blink-cursor-mode -1)
-(column-number-mode t)
-(show-paren-mode 1)
-(electric-pair-mode t)
-(global-auto-revert-mode t)
-
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(define-key global-map (kbd "RET") 'newline)
-(global-set-key (kbd "C-j") 'newline)
-
-(setq c-basic-offset 4)
+(setq-default indent-tabs-mode nil)
+(setq c-basic-offset 'set-from-style)
+(setq tab-always-indent nil)
 (setq c-tab-always-indent nil)
+(setq tab-always-indent 'complete)
 
 ;; let's pick a nice font
 ;; https://github.com/bbatsov/emacs.d/blob/3d3cb04bd69b05b040e7022b618f482da145e8ce/init.el#L90
@@ -71,35 +44,60 @@
 
 ;; --- use-package -------------------------------------------------------------
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package)
+  (require 'use-package-ensure))
 
-;; auto-download missing packages
-;; (require 'use-package-ensure)
-;; (setq use-package-always-ensure t)
+(use-package use-package
+  :custom
+  (use-package-always-defer t)
+  (use-package-compute-statistics t))
 
 ;; --- packages ----------------------------------------------------------------
 (use-package emacs
   :demand t
+  :config
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
   :custom
   (inhibit-startup-screen t)
-  (indent-tabs-mode nil)
-  (tab-always-indent nil)
-  (tab-width 4)
-  (fill-column 80)
+  (tool-bar-mode nil)
+  (menu-bar-mode nil)
+  (scroll-bar-mode nil)
+  (blink-cursor-mode nil)
+
+  (completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (use-short-answers t)
+
+  (column-number-mode t)
+  (global-display-line-numbers-mode t)
+  (display-line-numbers-type 'visual)
+
+  (show-paren-mode t)
+  (electric-pair-mode t)
+  (blink-matching-paren-distance nil)
+  (global-font-lock-mode t)
+  (global-auto-revert-mode t)
+
   (truncate-lines t)
   (require-final-newline t)
-  (blink-matching-paren-distance nil)
-  (global-display-line-numbers-mode t)
-  (display-line-numbers-type 'relative)
-  (custom-safe-themes '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c"
-                        "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3"
-                        default)))
 
-;; (use-package zenburn-theme
-;;   :config
-;;   (load-theme 'zenburn t))
+  (fill-column 80)
+  (global-display-fill-column-indicator-mode t)
+  (global-hl-line-mode t)
+  (global-hl-line-sticky-flag t)
+
+  (tab-width 4)
+
+  (custom-safe-themes
+   ; solarized dark/light
+   '("7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
+     "2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
+     default)))
 
 (use-package solarized-theme
+  :demand t
   :custom
   (solarized-use-variable-pitch nil)
   (solarized-scale-org-headlines nil)
