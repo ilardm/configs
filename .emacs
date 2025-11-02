@@ -117,15 +117,12 @@
 
 (use-package magit)
 
-(use-package projectile
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-indexing-method 'hybrid)
-  (projectile-mode +1))
+(use-package icomplete
+  :custom
+  (icomplete-mode t)
+  (icomplete-vertical-mode t)
+  (completion-styles '(basic flex)))
 
-(use-package ivy
-  :config
-  (ivy-mode 1))
 
 (use-package rg)
 
@@ -136,11 +133,11 @@
 
 (use-package tree-sitter-langs)
 
-(use-package flycheck
-  :config
-  (add-hook 'prog-mode-hook 'flycheck-mode))
 
-(use-package flycheck-pyflakes)
+(use-package flymake
+  :hook prog-mode
+  :bind
+  ("C-c ! n" . flymake-goto-next-error))
 
 (use-package company
   :config
