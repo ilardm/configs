@@ -251,3 +251,20 @@
 (use-package go-mode
   :hook (go-mode . my-go-mode-hook))
 
+(use-package elfeed
+  :custom
+  (elfeed-search-filter "@7-days-ago +unread")
+  (elfeed-sort-order 'ascending)
+  (shr-fill-text t)
+  (shr-use-colors nil)
+  (shr-use-fonts nil)
+  (shr-width 80))
+
+(use-package elfeed-org
+  :demand t
+  :after elfeed
+  :custom
+  (rmh-elfeed-org-files (list (expand-file-name "feeds.org" "~/.elfeed/")))
+  :config
+  (elfeed-org))
+
