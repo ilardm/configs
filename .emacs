@@ -245,12 +245,6 @@
 (use-package js
   :mode "\\.mjs\\'")
 
-(use-package poetry
-  :after python
-  :custom
-  (poetry-tracking-mode t)
-  (poetry-tracking-strategy 'project))
-
 (use-package direnv
   :custom
   (direnv-mode t))
