@@ -5,6 +5,10 @@ size = 10.0
 #family = "DeJaVu Sans Mono"
 family = "DejaVuSansM Nerd Font Mono"
 
+[window]
+padding = { x = 5, y = 0 }
+startup_mode = "Maximized"
+
 [general]
 import = [
        #"~/.config/alacritty/alacritty-theme/themes/zenburn.toml",
