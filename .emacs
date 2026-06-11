@@ -238,8 +238,15 @@
       (file+head "i3d/weekly/%<%Y>/%<%Y-w%W>.org" "#+title: %<%Y - w%W>")
       nil nil))))
 
-(use-package org-roam-ui
-  :after org-roam)
+(use-package denote
+  :custom
+  (denote-directory "~/doc/org-notes/denote/")
+  (denote-rename-buffer-mode t)
+  (denote-templates
+   '((weekly . (lambda () (f-read-text (expand-file-name "i3d/weekly/template.org" denote-directory)))))))
+
+(use-package denote-journal
+  :after denote)
 
 (use-package js
   :mode "\\.mjs\\'")
