@@ -25,16 +25,6 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; spellcheck
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-(add-hook 'text-mode-hook 'auto-fill-mode)
-(defun turn-off-auto-fill ()
-  (auto-fill-mode -1))
-(add-hook 'html-mode-hook 'turn-off-auto-fill)
-(add-hook 'yaml-mode-hook 'turn-off-auto-fill)
-
 ;; === packages ================================================================
 (require 'package)
 
@@ -85,10 +75,12 @@
   (global-auto-revert-mode t)
 
   (truncate-lines t)
+  (visual-line-fringe-indicators '(nil right-curly-arrow))
   (require-final-newline t)
+  (show-trailing-whitespace t)
 
   (fill-column 80)
-  (global-display-fill-column-indicator-mode t)
+
   (global-hl-line-mode t)
   (global-hl-line-sticky-flag t)
 
@@ -98,7 +90,13 @@
    ; solarized dark/light
    '("7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
      "2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
-     default)))
+     default))
+
+  :hook
+  (text-mode . visual-line-mode)
+  (text-mode . visual-wrap-prefix-mode)
+  (text-mode . flyspell-mode)
+  (prog-mode . display-fill-column-indicator-mode))
 
 (use-package solarized-theme
   :demand t
