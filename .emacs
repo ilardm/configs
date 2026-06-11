@@ -49,15 +49,23 @@
 ;; --- packages ----------------------------------------------------------------
 (use-package emacs
   :demand t
+
   :config
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
+
+  (windmove-default-keybindings)
+  (windmove-swap-states-default-keybindings)
+
   :custom
+  (source-directory (expand-file-name "~/downloads/src/emacs-30.2/"))
+
   (inhibit-startup-screen t)
   (tool-bar-mode nil)
   (menu-bar-mode nil)
   (scroll-bar-mode nil)
   (blink-cursor-mode nil)
+  (shift-select-mode nil)
 
   (completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
@@ -266,3 +274,9 @@
   :config
   (elfeed-org))
 
+(use-package server
+  :demand t
+  :config
+  ;; use "emacsclient -c" whenever possible
+  (unless (server-running-p)
+    (server-start)))
