@@ -178,22 +178,21 @@
   :hook prog-mode)
 
 (use-package todotxt-mode
+  :load-path "packages-ext/todotxt-mode/"
   :bind
   ("C-c t" . todotxt-open-file)
+  :mode ("todo\\.txt\\'" "done\\.txt\\'")
   :init
-  (defvar todotxt-due-tag "due")
-  (add-to-list 'auto-mode-alist '("todo\\.txt\\'" . todotxt-mode))
-  (add-to-list 'auto-mode-alist '("done\\.txt\\'" . todotxt-mode)))
+  (defvar todotxt-due-tag "due"))
 
 
 (use-package ledger-mode)
 
 ;; --- beancount ---------------------------------------------------------------
 (use-package beancount
-  :load-path (lambda () (expand-file-name "packages-ext/beancount-mode/" user-emacs-directory))
-  :init
-  (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
-  (add-hook 'beancount-mode-hook 'outline-minor-mode))
+  :load-path "packages-ext/beancount-mode/"
+  :mode "\\.beancount\\'"
+  :hook (beancount-mode . outline-minor-mode))
 
 
 ;; --- org-mode ----------------------------------------------------------------
