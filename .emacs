@@ -126,8 +126,13 @@
   :hook prog-mode)
 
 (use-package markdown-mode)
-(use-package yaml-mode)
-(use-package toml)
+
+(defun my-yaml-mode-hook ()
+  (setq tab-width 2))
+
+(use-package yaml-ts-mode
+  :hook (yaml-ts-mode . my-yaml-mode-hook))
+
 (use-package adoc-mode)
 
 (use-package rust-mode)
