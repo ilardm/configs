@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# ~/.bashrc: executed by bash(0) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -42,6 +42,13 @@ get_git_info()
 		echo -e " (git: $GITINFO-$(git log -n1 --pretty=format:%h 2>/dev/null))";
 	fi;
 }
+
+gitarchive()
+{
+    DIR=$(basename $(pwd));
+    git archive --prefix="${DIR}-${1}/" -o "../${DIR}-${1}.tar" "${1}";
+}
+
 get_hg_info()
 {
 	local HGINFO=$(hg branch 2>/dev/null)
@@ -69,57 +76,7 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-    screen) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-#	PS1='\u@\[\033[01;32m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-	
-	# color prompt with git info (if any)
-	PS1="${BWhite}\u@${BGreen}\h${BWhite} [${BBlue}\W${BWhite}]\$(get_git_info)\$(get_hg_info)\n\$ ${Color_Off}"
-else
-    #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-#	PS1='\u@\[\033[01;32m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-	PS1="\u@\h [\W]\$(get_git_info)\$(get_hg_info)\$(get_hg_info)\n\$ "
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-		#PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-		#PS1='\u@\[\033[01;32m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-		PS1="${BWhite}\u@${BGreen}\h${BWhite} [${BBlue}\W${BWhite}]\$(get_git_info)\$(get_hg_info)\n\$ ${Color_Off}"
-    ;;
-*)
-    ;;
-esac
+PS1="\$? > ${BGreen}\u${Color_Off}@\h [\W]\$(get_git_info)\$(get_hg_info)\n\$ "
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -132,11 +89,6 @@ if [ -x /usr/bin/dircolors ]; then
     #alias fgrep='fgrep --color=auto'
     #alias egrep='egrep --color=auto'
 fi
-
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -165,18 +117,34 @@ alias feh="feh -S filename -F -d"
 alias bzip="pbzip -z9v"
 alias bunzip="pbzip2 -dv"
 alias mplayer="mplayer -zoom"
-
-export EDITOR="emacsclient -c"
+# alias mc="mc -b"
+alias tmux="tmux -2"
+alias gpg2="gpg"
 
 export PATH="$PATH:/sbin/"
+export EDITOR="nvim"
+export PAGER="less"
 
-# java
-export JAVA_HOME="/opt/jdk/"
-export ANT_HOME="/opt/apache-ant/"
-export M2_HOME="/opt/apache-maven/"
-export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/:${M2_HOME}/bin/"
+# # i3-sensible-terminal
+export TERMINAL='ghostty'
 
-# python
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_SCRIPT=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
-source /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh
+# export PATH="$PATH:/sbin/:/home/ilya/bin/android-sdk-linux/platform-tools/:/home/ilya/bin/node/bin"
+
+# # java
+# export JAVA_HOME="/opt/jdk/"
+# export ANT_HOME="/opt/apache-ant/"
+# export M2_HOME="/opt/apache-maven/"
+# export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/:${M2_HOME}/bin/"
+
+# go
+export PATH="${PATH}:${HOME}/go/bin/"
+
+# # flutter
+export PATH="${PATH}:/home/ilya/bin/flutter/bin/"
+export CHROME_EXECUTABLE="/usr/bin/chromium"
+
+# pass
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR=$HOME/pass/password-store/.bin/ext/
+
+eval "$(direnv hook bash)"
