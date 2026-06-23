@@ -19,13 +19,13 @@ set $term ghostty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu dmenu_path | wmenu | xargs swaymsg exec --
+set $menu wmenu-run
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg #323232 solid_color
+output * bg #9e9e9e solid_color
 #
 # Example configuration:
 #
@@ -33,13 +33,26 @@ output * bg #323232 solid_color
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
+# output HDMI-A-1 {
+#     position 0,270
+# }
+#
+# output DP-1 {
+#     position 1920,0
+#     transform 90
+# }
+
+#output DP-3 {
+#       scale 1.5
+#}
+
 ### Idle configuration
 #
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 180 'swaylock -f -c 000000' \
+         timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -66,7 +79,11 @@ input * {
 }
 
 input <identifier> xkb_model "pc101"
-input type:keyboard xkb_numlock enabled
+#input type:keyboard xkb_numlock enabled
+
+input type:touchpad {
+    tap enabled
+}
 
 ### Key bindings
 #
@@ -93,6 +110,8 @@ input type:keyboard xkb_numlock enabled
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    bindsym $mod+z exec swaylock -f -c 000000
 #
 # Moving around:
 #
@@ -193,6 +212,12 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #
+# brightness
+#
+bindsym XF86MonBrightnessUp exec brightnessctl -c backlight s "5%+"
+bindsym XF86MonBrightnessDown exec brightnessctl -c backlight s "5%-"
+
+#
 # Resizing containers:
 #
 mode "resize" {
@@ -227,7 +252,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %H:%M'; do sleep 1; done
+    status_command i3status
 
     colors {
         statusline #ffffff
@@ -239,7 +264,7 @@ bar {
 #
 # custom
 #
-xwayland disable
+# xwayland disable
 
 # autostart
 exec swaykbdd &

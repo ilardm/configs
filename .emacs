@@ -44,6 +44,7 @@
 (use-package use-package
   :custom
   (use-package-always-defer t)
+  ;; (use-package-always-ensure t)
   (use-package-compute-statistics t))
 
 ;; --- packages ----------------------------------------------------------------
@@ -58,6 +59,7 @@
   (windmove-swap-states-default-keybindings)
 
   :custom
+  ;; https://ftp.gnu.org/gnu/emacs/emacs-30.2.tar.gz
   (source-directory (expand-file-name "~/downloads/src/emacs-30.2/"))
 
   (inhibit-startup-screen t)
@@ -190,6 +192,7 @@
 
 ;; --- beancount ---------------------------------------------------------------
 (use-package beancount
+  ;; git@github.com:beancount/beancount-mode.git
   :load-path "packages-ext/beancount-mode/"
   :mode "\\.beancount\\'"
   :hook (beancount-mode . outline-minor-mode))

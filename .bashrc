@@ -136,6 +136,11 @@ export TERMINAL='ghostty'
 # export M2_HOME="/opt/apache-maven/"
 # export PATH="${PATH}:${JAVA_HOME}/bin/:${ANT_HOME}/bin/:${M2_HOME}/bin/"
 
+# python
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
 # go
 export PATH="${PATH}:${HOME}/go/bin/"
 
@@ -146,5 +151,8 @@ export CHROME_EXECUTABLE="/usr/bin/chromium"
 # pass
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_EXTENSIONS_DIR=$HOME/pass/password-store/.bin/ext/
+
+# ssh agent
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 eval "$(direnv hook bash)"
