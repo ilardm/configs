@@ -147,7 +147,7 @@
   :custom
   (icomplete-mode t)
   (icomplete-vertical-mode t)
-  (completion-styles '(basic flex)))
+  (completion-styles '(substring flex)))
 
 (use-package rg
   :custom
@@ -201,11 +201,12 @@
 ;; --- org-mode ----------------------------------------------------------------
 (use-package org
   :bind
-  ("C-c a" . org-agenda)
+  (("C-c a" . org-agenda)
+   ("C-c s l" . org-store-link))
   :custom
   ;; visit org file, M-x org-agenda-file-to-front, visit ~/.emacs.d/custom.el,
   ;; edit files to a single directory
-  (org-agenda-files '("~/doc/org-notes/tasks.org"))
+  (org-agenda-files '("~/doc/org-notes/19700101T000006--tasks.org"))
   (org-agenda-span 14)
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-if-done t)
@@ -218,38 +219,41 @@
                               (shell . t)))
   (org-icalendar-include-todo 'all))
 
-(use-package org-roam
-  :after org
-  :bind (("C-c r t" . org-roam-dailies-goto-today)
-         ("C-c r c" . org-roam-dailies-capture-today))
-  :custom
-  (org-roam-directory "~/doc/org-notes/")
-  (org-roam-file-exclude-regexp '(".stversions/"))
-  (org-roam-db-autosync-mode t)
-  (org-roam-node-display-template "${title} :: ${file}")
-  (org-roam-extract-new-file-path "${slug}.org")
-  (org-roam-capture-templates
-   '(("w" "work note" plain "%?" :target
-      (file+head "i3d/${slug}.org" "#+title: ${title}")
-      :unnarrowed t)
-     ("d" "default" plain "%?" :target
-      (file+head "notes/${slug}.org" "#+title: ${title}")
-      :unnarrowed t)))
-  (org-roam-dailies-directory "")
-  (org-roam-dailies-capture-templates
-   '(("W" "i3d weekly" entry "* %<%Y-%m-%d %H:%M> %?" :target
-      (file+head "i3d/weekly/%<%Y>/%<%Y-w%W>.org" "#+title: %<%Y - w%W>")
-      nil nil))))
+
+(defun my-denote-today-journal ()
+  (interactive)
+  (let* ((title (format-time-string "%Y-w%W"))
+         (journal-regex (concat "--" title))
+         (journal-file (car (denote-directory-files journal-regex))))
+    (if journal-file
+        (find-file journal-file)
+      (let ((denote-use-title title)
+            (denote-use-directory
+             (expand-file-name
+              (concat "journal/" (format-time-string "%Y"))
+              denote-directory))
+            (denote-use-template (alist-get 'weekly denote-templates)))
+        (call-interactively #'denote)))))
+
+(use-package f
+  ;; f-read-text for denote templates
+  :demand t)
 
 (use-package denote
+  :after f
+  :demand t
+  :bind
+  (("C-c d t" . my-denote-today-journal)
+   ("C-c d o" . denote-open-or-create)
+   ("C-c d l" . denote-link-or-create))
   :custom
-  (denote-directory "~/doc/org-notes/denote/")
+  (denote-directory "~/doc/org-notes/")
+  (denote-prompts '(title template keywords subdirectory))
   (denote-rename-buffer-mode t)
+  (denote-org-store-link-to-heading 'id)
   (denote-templates
-   '((weekly . (lambda () (f-read-text (expand-file-name "i3d/weekly/template.org" denote-directory)))))))
+   '((weekly . (lambda () (f-read-text (expand-file-name "journal/template.org" denote-directory)))))))
 
-(use-package denote-journal
-  :after denote)
 
 (use-package js
   :mode "\\.mjs\\'")
