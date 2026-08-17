@@ -292,3 +292,7 @@
   ;; use "emacsclient -c" whenever possible
   (unless (server-running-p)
     (server-start)))
+
+(use-package expand-region
+  :bind
+  (("C-=" . er/expand-region)))
